@@ -7,13 +7,31 @@
 
 using namespace std;
 
+
+// void assignValue(Board &board){
+//     board(1,1) = 1;
+// }
+
+
 // print puzzle to screen
 void printPuzzle(Board &b){
     int N = b.getSize();
+
+    cout << "+";
     for(int i = 0; i < N; i++){
+        cout << "+---";
+    }
+    cout << "+" << endl;
+
+    for(int i = 0; i < N; i++){
+        cout << "| ";
         for(int j = 0; j < N; j++)
-            cout << b(i,j) << " ";
+            cout << b(i,j) << " | ";
         cout << endl;
+        for(int j = 0; j < N; j++)
+            cout << "+---";
+        cout << "+" << endl;
+
     }
 }
 
@@ -46,7 +64,7 @@ bool feasible(Board &board, int row, int col, int val){
     assert(row < N);
     assert(col < N);
     int blockSize = (int)sqrt(N);
-    
+
     // See if used yet in row
     for(int j = 0; j < N; j++)
         if(board(row,j) == val) return false;
@@ -54,7 +72,7 @@ bool feasible(Board &board, int row, int col, int val){
     // See if used yet in col
     for(int i = 0; i < N; i++)
         if(board(i,col) == val) return false;
-    
+
     // coordinates of upper-left hand corner of block that (row,col) occupies
     int blockRow = blockSize*(row/blockSize);
     int blockCol = blockSize*(col/blockSize);
@@ -64,7 +82,7 @@ bool feasible(Board &board, int row, int col, int val){
         for(int j = 0; j < blockSize; j++)
             if(board(blockRow + i,blockCol + j) == val)
                 return false;
-    
+
      return true;
 }
 
@@ -73,11 +91,11 @@ bool solve(Board &board, int row, int col){
     // N: size of the board; note N must be a perfect square!
     int N = board.getSize();
     assert(N == pow(sqrt(N),2));
-    
+
     // Check to see if we are at end of board
     if(row == N)
         return true;
-    
+
     // Skip over values that have been filled in
     if(board(row,col) != 0){
         if(col == (N-1)){
@@ -87,7 +105,7 @@ bool solve(Board &board, int row, int col){
         }
         return false;
     }
-        
+
     // Try different values
     for(int val = 1; val <= N; val++){
         if(feasible(board, row, col, val)){
@@ -99,7 +117,7 @@ bool solve(Board &board, int row, int col){
             }
         }
     }
-    
+
     // We failed to find a value that works
     board(row,col) = 0;
     return false;
@@ -114,18 +132,18 @@ Board generatePuzzle(int N, int nobs){
     // randomly remove enough entries to only leave nobs observed
     assert(nobs <= N*N);
     Board board(N);
-    
+
     int* perm = genPerm(N); // permuted 1...N
-    
+
     // fill diag of board with perm
     for(int i = 0; i<N;i++)
         board(i,i) = perm[i];
     delete [] perm;
-    
+
     // solve board
     bool isSolved = solve(board,0,0);
     assert(isSolved); // by filling diagonal, this should never be violated
-    
+
     // remove N*N - nobs entries
     perm = genPerm(N*N);
     int x, y;
@@ -133,22 +151,23 @@ Board generatePuzzle(int N, int nobs){
         x = (perm[i]-1)/N;
         y = (perm[i]-1)%N;
         board(x,y) = 0;
+        board.assignImmutable(x,y, false);
     }
-    
+
     delete [] perm;
     return board;
-    
+
 }
 
 // http://www.cs.berkeley.edu/~jfc/cs174/lecs/lec2/lec2.pdf
 // function to return a random permutation of integers 0,..,(N-1)
 int* genPerm(int N){
-    
+
     // initialize array [1,...,N]
     int *x = new int[N];
     for(int i = 0; i < N; i++)
         x[i] = i+1;
-    
+
     // generate random permutation of [1,...,N]
     int rindex;
     int temp;
@@ -158,9 +177,9 @@ int* genPerm(int N){
         x[i] = x[rindex];
         x[rindex] = temp;
     }
-    
+
     return x;
-    
+
 }
 
 
