@@ -13,28 +13,27 @@ using namespace std;
 // }
 
 
-// print puzzle to screen
-void printPuzzle(Board &b){
-    int N = b.getSize();
 
-    cout << "+";
+void Board::printPuzzle() {
+
     for(int i = 0; i < N; i++){
         cout << "+---";
     }
+
     cout << "+" << endl;
 
     for(int i = 0; i < N; i++){
         cout << "| ";
         for(int j = 0; j < N; j++)
-            cout << b(i,j) << " | ";
+            cout << (*this)(i,j) << " | ";
         cout << endl;
         for(int j = 0; j < N; j++)
             cout << "+---";
         cout << "+" << endl;
 
     }
-}
 
+}
 // check to see if solved puzzle is correct...dumb implementation,
 // just for debugging
 bool checkPuzzle(Board &b){

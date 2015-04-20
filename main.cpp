@@ -58,7 +58,7 @@ int main(){
     cout << "============ Welcome to Sudoku! ===========" << endl;
     cout << "===========================================" << endl;
     do {
-        printPuzzle(board);
+        board.printPuzzle();
         getline(cin, user_entry);
 
         if (user_entry == "Solve"){
@@ -94,7 +94,7 @@ int main(){
     // cout << "here is the puzzle" << endl;
     // cout << "===========================================" << endl << endl;
 
-    printPuzzle(board);
+    board.printPuzzle();
     // cout << "===========================================" << endl << endl;
 
     // board.assignValue(1,1,1);
