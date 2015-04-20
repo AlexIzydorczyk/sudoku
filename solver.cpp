@@ -34,23 +34,40 @@ void Board::printPuzzle() {
     }
 
 }
-// check to see if solved puzzle is correct...dumb implementation,
-// just for debugging
-bool checkPuzzle(Board &b){
+
+bool Board::checkPuzzle(){
     int val = 0;
-    int N = b.getSize();
+
     for(int i = 0; i < N; i++)
         for(int j = 0; j < N; j++){
-            val = b(i,j);
-            b(i,j) = 0;
-            if(!feasible(b, i, j, val)){
-                b(i,j) = val;
+            val = (*this)(i,j);
+            (*this)(i,j) = 0;
+            if(!feasible(*this, i, j, val)){
+                (*this)(i,j) = val;
                 return false;
             }
-            b(i,j) = val;
+            (*this)(i,j) = val;
         }
     return true;
 }
+
+// check to see if solved puzzle is correct...dumb implementation,
+// just for debugging
+// bool checkPuzzle(Board &b){
+//     int val = 0;
+//     int N = b.getSize();
+//     for(int i = 0; i < N; i++)
+//         for(int j = 0; j < N; j++){
+//             val = b(i,j);
+//             b(i,j) = 0;
+//             if(!feasible(b, i, j, val)){
+//                 b(i,j) = val;
+//                 return false;
+//             }
+//             b(i,j) = val;
+//         }
+//     return true;
+// }
 
 /*
                                     My Versions

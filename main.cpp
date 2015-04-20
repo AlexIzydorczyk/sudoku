@@ -88,23 +88,26 @@ int main(){
             cout << "Not feasible!" << endl;
         }
 
-    } while (!checkPuzzle(board));
+    } while (!board.checkPuzzle());
 
     // cout << checkPuzzle(board) << endl;
     // cout << "here is the puzzle" << endl;
     // cout << "===========================================" << endl << endl;
 
     board.printPuzzle();
+    if (board.checkPuzzle()){
+        cout << "The puzzle is solved!" << endl;
+    } else {
+        cout << "Could not solve puzzle" << endl;
+    }
     // cout << "===========================================" << endl << endl;
 
-    // board.assignValue(1,1,1);
     // cout << "===========================================" << endl << endl;
     // printPuzzle(board);
     // cout << "===========================================" << endl << endl;
     // bool isSolved = solve(board,0,0);
 
     // printPuzzle(board);
-    // cout << checkPuzzle(board) << endl;
 
 
 

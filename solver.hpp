@@ -40,6 +40,7 @@ public:
     }
 
     void printPuzzle();
+    bool checkPuzzle();
 
     int& operator() (int x, int y){
         assert(x < N && y < N);
@@ -76,7 +77,7 @@ public:
 // void printPuzzle(Board &b);
 bool feasible(Board &b, int row, int col, int val);
 bool solve(Board &b, int row, int col);
-bool checkPuzzle(Board &b);
+// bool checkPuzzle(Board &b);
 int* genPerm(int N);
 Board generatePuzzle(int n, int nobs);
 
