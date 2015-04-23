@@ -1,0 +1,12 @@
+(1) Download armadillo source (to, say, your downloads directory) and unzip
+    http://arma.sourceforge.net/download.html
+
+(2) cd to unzipped directory
+
+(3) Run cmake (if you don't have cmake, you can get it from macports, etc.)
+
+(4) Run make
+
+(5) Run sudo make install
+
+(6) Now you can link against the armadillo library via the `-larmadillo` flag
