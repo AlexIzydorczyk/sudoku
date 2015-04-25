@@ -30,7 +30,7 @@ public:
 
     }
 
-    Board(int n, int nobs);
+  //    Board(int n, int nobs);
 
     ~Board(){
         for(int i = 0; i < N; i++){

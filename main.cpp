@@ -1,12 +1,12 @@
 #include <iostream>
 #include <regex>
-using namespace std;
-
 #include "solver.hpp"
+#include "altproj.hpp"
 
 #include <ctime>
 #include <ratio>
 #include <chrono>
+using namespace std;
 
 
 template<typename TimeT>
@@ -34,13 +34,14 @@ void unitTest(){
     {
         Board board = generatePuzzle(9,10);
         auto t = measure<std::chrono::nanoseconds>::execution(solve, board, 0, 0);
-        std::cout << "Solved puzzle in " << t << " ns." << std::endl;
+        cout << "Solved puzzle in " << t << " ns." << endl;
         total += t;
     }
 
     cout << "Average time: " << total/30 << endl;
 
 }
+
 
 int main(){
     //srand(time(NULL));
@@ -84,7 +85,7 @@ int main(){
     //printPuzzle(board);
 
 
-
+    unitTest();
 
     string user_entry;
 

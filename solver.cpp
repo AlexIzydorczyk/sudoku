@@ -215,8 +215,3 @@ int* genPerm(int N){
     return x;
 
 }
-
-
-
-
-
