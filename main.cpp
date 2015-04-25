@@ -16,7 +16,7 @@ struct measure
     static typename TimeT::rep execution(F func, Args&&... args)
     {
         auto start = std::chrono::high_resolution_clock::now();
-        func(std::forward<Args>(args)...);
+        cout << func(std::forward<Args>(args)...) << endl;
         auto duration = std::chrono::duration_cast< TimeT>
                 (std::chrono::high_resolution_clock::now() - start);
         return duration.count();
@@ -43,15 +43,35 @@ void unitTest(){
 }
 
 
+void unitTest2(){
+
+    int total = 0;
+
+    for (int i = 0; i < 30; ++i)
+    {
+        Board board = generatePuzzle(16,150);
+        auto t = measure<std::chrono::nanoseconds>::execution(DR, board);
+        auto t2 = measure<std::chrono::nanoseconds>::execution(solve, board, 0, 0);
+
+        cout << "Solved puzzle in " << t << " ns. other solved in " << t2 << endl;
+        total += t;
+    }
+
+    cout << "Average time: " << total/30 << endl;
+
+}
+
 int main(){
 
     srand(345);
 
-    unitTest();
+    unitTest2();
 
     string user_entry;
 
     Board board = generatePuzzle(4,2);
+    //Board solved = DR(board);
+    //solved.printPuzzle();
 
     regex rgx("[0-9]{1,}");
     smatch match;
