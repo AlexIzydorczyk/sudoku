@@ -1,5 +1,7 @@
 #pragma once
 #include <cassert>
+#include <cstdlib>
+#include <iostream>
 
 class Board{
     int N;
@@ -7,6 +9,7 @@ class Board{
     bool **immutable;
 public:
 
+    // To be implemented as matrix with single array
     Board(int _N) : N(_N){
         grid = new int*[N];
         for(int i = 0; i < N; i++){
@@ -35,6 +38,9 @@ public:
         }
         delete [] grid;
     }
+
+    void printPuzzle();
+    bool checkPuzzle();
 
     int& operator() (int x, int y){
         assert(x < N && y < N);
@@ -66,15 +72,12 @@ public:
                 grid[i][j] = a[i][j];
     }
 
-
-
-
 };
 
-void printPuzzle(Board &b);
+// void printPuzzle(Board &b);
 bool feasible(Board &b, int row, int col, int val);
 bool solve(Board &b, int row, int col);
-bool checkPuzzle(Board &b);
+// bool checkPuzzle(Board &b);
 int* genPerm(int N);
 Board generatePuzzle(int n, int nobs);
 
