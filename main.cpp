@@ -1,9 +1,9 @@
 #include <iostream>
 #include <regex>
-using namespace std;
-
 #include "solver.hpp"
+#include "altproj.hpp"
 
+using namespace std;
 
 int main(){
     //srand(time(NULL));
