@@ -1,5 +1,5 @@
 CXXFLAGS=-std=c++11 -Wall
-LDFLAGS=-lm
+LDFLAGS=-lm -larmadillo
 OBJ=solver.o
 
 all: $(OBJ)

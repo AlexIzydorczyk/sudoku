@@ -4,10 +4,48 @@ using namespace std;
 
 #include "solver.hpp"
 
+#include <ctime>
+#include <ratio>
+#include <chrono>
+
+
+template<typename TimeT>
+struct measure
+{
+    template<typename F, typename ...Args>
+    static typename TimeT::rep execution(F func, Args&&... args)
+    {
+        auto start = std::chrono::high_resolution_clock::now();
+        func(std::forward<Args>(args)...);
+        auto duration = std::chrono::duration_cast< TimeT>
+                (std::chrono::high_resolution_clock::now() - start);
+        return duration.count();
+    }
+};
+
+
+
+
+void unitTest(){
+
+    int total = 0;
+
+    for (int i = 0; i < 30; ++i)
+    {
+        Board board = generatePuzzle(9,10);
+        auto t = measure<std::chrono::nanoseconds>::execution(solve, board, 0, 0);
+        std::cout << "Solved puzzle in " << t << " ns." << std::endl;
+        total += t;
+    }
+
+    cout << "Average time: " << total/30 << endl;
+
+}
 
 int main(){
     //srand(time(NULL));
-    srand(123);
+    srand(345);
+
 
     /*
     int puzzle[][9] = { {0, 0, 0,   7, 4, 0,    0, 0, 0},
@@ -45,9 +83,12 @@ int main(){
     //bool isSolved = solve(board,0,0);
     //printPuzzle(board);
 
+
+
+
     string user_entry;
 
-    Board board = generatePuzzle(9,10);
+    Board board = generatePuzzle(4,2);
     // cout << "Welcome to Sudoku" << endl << endl;
 
     regex rgx("[0-9]{1,}");

@@ -16,6 +16,9 @@ using namespace std;
 
 void Board::printPuzzle() {
 
+    int blockSize = (int)sqrt(N);
+    cout << blockSize << endl;
+
     for(int i = 0; i < N; i++){
         cout << "+---";
     }
@@ -24,12 +27,27 @@ void Board::printPuzzle() {
 
     for(int i = 0; i < N; i++){
         cout << "| ";
-        for(int j = 0; j < N; j++)
-            cout << (*this)(i,j) << " | ";
+        for(int j = 0; j < N; j++){
+
+            if ((*this)(i,j) == 0){
+                cout << ".";
+            } else {
+                cout << (*this)(i,j);
+            }
+
+            if ((j+1) % blockSize == 0){
+                cout << " | ";
+            } else {
+                cout << "   ";
+            }
+        }
+
         cout << endl;
-        for(int j = 0; j < N; j++)
-            cout << "+---";
-        cout << "+" << endl;
+        if ((i+1) % blockSize == 0){
+            for(int j = 0; j < N; j++)
+                cout << "+---";
+            cout << "+" << endl;
+        }
 
     }
 
