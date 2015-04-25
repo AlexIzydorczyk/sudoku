@@ -1,19 +1,7 @@
 #include "altproj.hpp"
+#include <iostream>
+using namespace arma;
 
-/*
-Board cube2mat(const cube& Q){
-  int n = Q.n_rows;
-  Board board(n,n);
-  uvec ix;
-  for(int i = 0; i < n; i++)
-    for(int j = 0; j < n; j++){
-      //      board(n,n) = (int)find(Q.tube(i,j) > 0, "last");
-      ix = find(Q.tube(i,j) > 0);
-      board(i,j) = ix(0) + 1;
-    }
-  return board;
-}
-*/
 // RC1
 cube RC1(const cube& Q){
 
@@ -82,8 +70,7 @@ cube RC4(const cube& Q){
 }
 
 // RC5
-/*
-cube RC5(const cube&Q, const Board& board){
+cube RC5(const cube&Q, Board& board){
   int n = Q.n_rows;
   cube P = Q;
   for(int i = 0; i < n; i++)
@@ -93,9 +80,39 @@ cube RC5(const cube&Q, const Board& board){
   return 2*P - Q;
 
 }
-*/
 
-Board DR(const Board& board){
-  Board matt = board;
-  return matt;
+Board DR(Board& board){
+  int n = board.getSize();
+   cube X1(n,n,n,fill::zeros),
+     X2(n,n,n,fill::zeros),
+     X3(n,n,n,fill::zeros),
+     X4(n,n,n,fill::zeros),
+     X5(n,n,n,fill::zeros), 
+     Z(n,n,n,fill::zeros);
+   
+   // do the DR iterations
+   for(int i =0; i < 1e4; i++){
+     Z = (X1+X2+X3+X4+X5)/5;
+     X1 = X1/2 + RC1(2*Z-X1)/2;
+     X2 = X2/2 + RC2(2*Z-X2)/2;
+     X3 = X3/2 + RC3(2*Z-X3)/2;
+     X4 = X4/2 + RC4(2*Z-X4)/2;
+     X5 = X4/2 + RC5(2*Z-X5,board)/2;
+   }
+   
+   // take an average of final projection and round it
+   Z = round((X1+X2+X3+X4+X5))/5;
+
+   // convert cube into board
+   Board solvedBoard(n);
+   uvec ix;
+   vec A;
+   for(int i = 0; i < n; i++)
+     for(int j = 0; j < n; j++){
+       ix = find(Z.tube(i,j) > 0, 1, "last");
+         solvedBoard(i,j) = (int)ix(0) + 1;
+     }
+
+   return solvedBoard;
+
 }

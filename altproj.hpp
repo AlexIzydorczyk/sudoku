@@ -4,22 +4,18 @@ projections) to solve sudoku puzzle.  Note that this algorithm is NOT gauranteed
  */
 
 #pragma once
-
-#include <armadillo>
 #include "solver.hpp"
-using namespace arma;
-
-//Board cube2mat(const cube& Q);
+#include <armadillo>
 
 // RC1 - RC5 implement "reflection" operators that make up the iterations
 // in the DR splitting procedure
-cube RC1(const cube& Q);
-cube RC2(const cube& Q);
-cube RC3(const cube& Q);
-cube RC4(const cube& Q);
-//cube RC5(const cube&Q, const Board& board);
+arma::cube RC1(const arma::cube& Q);
+arma::cube RC2(const arma::cube& Q);
+arma::cube RC3(const arma::cube& Q);
+arma::cube RC4(const arma::cube& Q);
+arma::cube RC5(const arma::cube&Q,  Board& board);
 
 // The main solver
-Board DR(const Board& board);
+Board DR(Board& board);
 
 
