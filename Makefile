@@ -14,5 +14,5 @@ debug: $(OBJ)
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 clean:
-	rm $(OBJS) main debug
+	rm $(OBJ) main debug
 
