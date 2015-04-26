@@ -17,5 +17,3 @@ arma::cube RC5(const arma::cube&Q,  Board& board);
 
 // The main solver
 Board DR(Board& board);
-
-

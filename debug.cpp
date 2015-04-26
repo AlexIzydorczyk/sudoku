@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include<ctime>
 #include "solver.hpp"
 #include "altproj.hpp"
 using namespace std;
@@ -7,22 +8,21 @@ using namespace arma;
 
 int main(int argc, char **argv){
   
-  srand(123);
-  Board board = generatePuzzle(16,5);
+  srand(time(NULL));
+  int n = 9;
+  Board board = generatePuzzle(n,9);
+  board.printPuzzle();
+  cout << "\n==================================\n";
 
-  //  board.printPuzzle();
-
-  //  cout << "\n==================================\n";
   Board matt = DR(board);
-  //  matt.printPuzzle();
-
-//  cout << "\n==================================\n";
-
-  /*
-  if(solve(board, 0, 0))
-    board.printPuzzle();
+  if(!matt.checkPuzzle())
+    cout << "DR Failed to Solve" << endl;
   else
-    cout << "FAIL" << endl;
-  */
+    matt.printPuzzle();
+  
+  cout << "\n==================================\n";
+
+  solve(board,0,0);
+  board.printPuzzle();
   
 }

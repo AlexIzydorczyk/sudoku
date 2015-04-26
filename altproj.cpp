@@ -1,5 +1,4 @@
 #include "altproj.hpp"
-#include <iostream>
 using namespace arma;
 
 // RC1
@@ -100,7 +99,7 @@ Board DR(Board& board){
      X2 = X2/2 + RC2(2*Z-X2)/2;
      X3 = X3/2 + RC3(2*Z-X3)/2;
      X4 = X4/2 + RC4(2*Z-X4)/2;
-     X5 = X4/2 + RC5(2*Z-X5,board)/2;
+     X5 = X5/2 + RC5(2*Z-X5,board)/2;
    }
    cout << timer.toc();
    
@@ -115,7 +114,7 @@ Board DR(Board& board){
      for(int j = 0; j < n; j++){
        A = Z.tube(i,j);
        A.max(ix);
-       board(i,j) = (int)ix + 1;
+       solvedBoard(i,j) = (int)ix + 1;
      }
    return solvedBoard;
 
