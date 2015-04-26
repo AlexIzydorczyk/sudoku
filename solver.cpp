@@ -105,25 +105,34 @@ bool Board::inBounds(int val){
     }
 }
 
+
+//Checks for feasibility of the board
+//Not useful to solvers because can't return as soon as problem exits
+//Needs to cycle through whole board to update problem cells
+//so that we can return red to the user....
 bool Board::feasibleUser(int row, int col, int val){
     int blockSize =  (int)sqrt(N);
     assert(row < N);
     assert(col < N);
 
+    bool isfeasible = true;
+
     for(int i = 0; i < N; i++){
         if((*this)(row,i) == val){
             infeasible[row][i] = true;
-            return false;
+            isfeasible = false;
+        } else {
+            infeasible[row][i] = false;
         }
-        infeasible[row][i] = false;
     }
 
     for(int i = 0; i < N; i++){
         if((*this)(i,col) == val){
             infeasible[i][col] = true;
-            return false;
+            isfeasible = false;
+        } else {
+            infeasible[i][col] = false;
         }
-        infeasible[i][col] = false;
     }
 
     int blockRow = blockSize*(row/blockSize);
@@ -134,12 +143,13 @@ bool Board::feasibleUser(int row, int col, int val){
         for(int j = 0; j < blockSize; j++){
             if((*this)(blockRow + i,blockCol + j) == val){
                 infeasible[blockRow + i][blockCol + j] = true;
-                return false;
+                isfeasible = false;
+            } else {
+                infeasible[blockRow + i][blockCol + j] = false;
             }
-            infeasible[blockRow + i][blockCol + j] = false;
         }
     }
-    return true;
+    return isfeasible;
 }
 
 // Helper function for solve: checks to see if candidate is feasible or not
