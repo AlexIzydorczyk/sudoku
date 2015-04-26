@@ -1,4 +1,3 @@
-CXX=g++
 CXXFLAGS=-std=c++11 -stdlib=libc++ -Wall -O3
 LDFLAGS=-lm -larmadillo
 OBJ=solver.o altproj.o

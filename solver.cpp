@@ -8,19 +8,19 @@
 using namespace std;
 
 
-// void assignValue(Board &board){
-//     board(1,1) = 1;
-// }
-
-
 
 void Board::printPuzzle() {
 
     int blockSize = (int)sqrt(N);
     cout << blockSize << endl;
 
+    int extra_space = N / 10;
+
+
     for(int i = 0; i < N; i++){
         cout << "+---";
+        for(int j = 0; j < extra_space; j++)
+            cout << "-";
     }
 
     cout << "+" << endl;
@@ -30,9 +30,25 @@ void Board::printPuzzle() {
         for(int j = 0; j < N; j++){
 
             if ((*this)(i,j) == 0){
+
                 cout << ".";
+
+                for(int k = 0; k < extra_space; k++)
+                    cout << " ";
+
             } else {
-                cout << (*this)(i,j);
+                if (!isProblem(i,j)){
+                    cout << (*this)(i,j);
+                } else {
+                    cout << "\033[31m" << (*this)(i,j) << "\033[39m";
+                }
+
+                int numDigits = (*this)(i,j)/10;
+                while (numDigits < extra_space){
+                    cout << " ";
+                    numDigits++;
+                }
+
             }
 
             if ((j+1) % blockSize == 0){
@@ -44,8 +60,13 @@ void Board::printPuzzle() {
 
         cout << endl;
         if ((i+1) % blockSize == 0){
-            for(int j = 0; j < N; j++)
+            for(int j = 0; j < N; j++){
                 cout << "+---";
+
+                for(int k = 0; k < extra_space; k++)
+                    cout << "-";
+            }
+
             cout << "+" << endl;
         }
 
@@ -69,28 +90,67 @@ bool Board::checkPuzzle(){
     return true;
 }
 
-// check to see if solved puzzle is correct...dumb implementation,
-// just for debugging
-// bool checkPuzzle(Board &b){
-//     int val = 0;
-//     int N = b.getSize();
-//     for(int i = 0; i < N; i++)
-//         for(int j = 0; j < N; j++){
-//             val = b(i,j);
-//             b(i,j) = 0;
-//             if(!feasible(b, i, j, val)){
-//                 b(i,j) = val;
-//                 return false;
-//             }
-//             b(i,j) = val;
-//         }
-//     return true;
-// }
+void Board::clearPuzzle(){
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j < N; j++)
+            if (!checkImmutable(i,j))
+                (*this)(i,j) = 0;
+}
 
-/*
-                                    My Versions
-https://codemyroad.wordpress.com/2014/05/01/solving-sudoku-by-backtracking/
- */
+bool Board::inBounds(int val){
+    if ((val > 0) && (val <= N)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+//Checks for feasibility of the board
+//Not useful to solvers because can't return as soon as problem exits
+//Needs to cycle through whole board to update problem cells
+//so that we can return red to the user....
+bool Board::feasibleUser(int row, int col, int val){
+    int blockSize =  (int)sqrt(N);
+    assert(row < N);
+    assert(col < N);
+
+    bool isfeasible = true;
+
+    for(int i = 0; i < N; i++){
+        if((*this)(row,i) == val){
+            infeasible[row][i] = true;
+            isfeasible = false;
+        } else {
+            infeasible[row][i] = false;
+        }
+    }
+
+    for(int i = 0; i < N; i++){
+        if((*this)(i,col) == val){
+            infeasible[i][col] = true;
+            isfeasible = false;
+        } else {
+            infeasible[i][col] = false;
+        }
+    }
+
+    int blockRow = blockSize*(row/blockSize);
+    int blockCol = blockSize*(col/blockSize);
+
+    // // See if used yet in block
+    for(int i = 0; i < blockSize; i++){
+        for(int j = 0; j < blockSize; j++){
+            if((*this)(blockRow + i,blockCol + j) == val){
+                infeasible[blockRow + i][blockCol + j] = true;
+                isfeasible = false;
+            } else {
+                infeasible[blockRow + i][blockCol + j] = false;
+            }
+        }
+    }
+    return isfeasible;
+}
 
 // Helper function for solve: checks to see if candidate is feasible or not
 bool feasible(Board &board, int row, int col, int val){
