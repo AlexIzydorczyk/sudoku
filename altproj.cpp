@@ -90,6 +90,9 @@ Board DR(Board& board){
      X5(n,n,n,fill::zeros), 
      Z(n,n,n,fill::zeros);
    
+   wall_clock timer;
+   timer.tic();
+
    // do the DR iterations
    for(int i =0; i < 1e4; i++){
      Z = (X1+X2+X3+X4+X5)/5;
@@ -99,20 +102,21 @@ Board DR(Board& board){
      X4 = X4/2 + RC4(2*Z-X4)/2;
      X5 = X4/2 + RC5(2*Z-X5,board)/2;
    }
+   cout << timer.toc();
    
    // take an average of final projection and round it
-   Z = round((X1+X2+X3+X4+X5))/5;
-
+   Z = round((X1+X2+X3+X4+X5)/5);
+   
    // convert cube into board
    Board solvedBoard(n);
-   uvec ix;
+   uword ix;
    vec A;
    for(int i = 0; i < n; i++)
      for(int j = 0; j < n; j++){
-       ix = find(Z.tube(i,j) > 0, 1, "last");
-         solvedBoard(i,j) = (int)ix(0) + 1;
+       A = Z.tube(i,j);
+       A.max(ix);
+       board(i,j) = (int)ix + 1;
      }
-
    return solvedBoard;
 
 }

@@ -8,17 +8,21 @@ using namespace arma;
 int main(int argc, char **argv){
   
   srand(123);
-  Board board = generatePuzzle(9,5);
-  board.printPuzzle();
+  Board board = generatePuzzle(16,5);
 
-  cout << "\n==================================\n";
+  //  board.printPuzzle();
+
+  //  cout << "\n==================================\n";
   Board matt = DR(board);
-  matt.printPuzzle();
+  //  matt.printPuzzle();
 
-  cout << "\n==================================\n";
+//  cout << "\n==================================\n";
+
+  /*
   if(solve(board, 0, 0))
     board.printPuzzle();
   else
     cout << "FAIL" << endl;
+  */
   
 }
