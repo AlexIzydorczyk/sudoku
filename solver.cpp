@@ -111,9 +111,18 @@ bool Board::inBounds(int val){
 //Needs to cycle through whole board to update problem cells
 //so that we can return red to the user....
 bool Board::feasibleUser(int row, int col, int val){
+
     int blockSize =  (int)sqrt(N);
-    assert(row < N);
-    assert(col < N);
+
+    if (row >= N){
+        std::cout << "You can't play off the game board!" << endl;
+        return false;
+    }
+
+    if (col >= N){
+        std::cout << "You can't play off the game board!" << endl;
+        return false;
+    }
 
     bool isfeasible = true;
 
