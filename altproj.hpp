@@ -19,6 +19,6 @@ arma::cube RC2(const arma::cube& Q);
 arma::cube RC3(const arma::cube& Q);
 arma::cube RC4(const arma::cube& Q);
 arma::cube RC5(const arma::cube&Q,  Board& board);
-Board cube2Board(const cube& Q);
+Board cube2Board(const arma::cube& Q);
 // Douglash Rachford splitting operator (i.e. solves puzzle)
 Board DR(Board& board);
