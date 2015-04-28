@@ -1,9 +1,18 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Code to implement Douglas Rachford splitting to to solve sudoku puzzle
+The idea to use DR to solve sudoku comes from the paper:
+"Recent Results on Douglas–Rachford Methods for Combinatorial Optimization Problems"
+*/
+
 #include "altproj.hpp"
 #include <iostream>
 using namespace std;
 using namespace arma;
 
-// RC1
+// "Project" onto cubes that obey row constrains
 cube RC1(const cube& Q){
 
   int n = Q.n_rows;
@@ -18,7 +27,7 @@ cube RC1(const cube& Q){
   return 2*P - Q;
 }
 
-// RC2
+// "Project" onto cubes that obey column constrains
 cube RC2(const cube& Q){
   int n = Q.n_rows;
   cube P(n,n,n,fill::zeros);
@@ -32,8 +41,7 @@ cube RC2(const cube& Q){
   return 2*P - Q;
 }
 
-
-// RC3
+// "Project" onto cubes that obey block constaints
 cube RC3(const cube& Q){
   int n = Q.n_rows;
   cube P(n,n,n,fill::zeros);
@@ -56,7 +64,7 @@ cube RC3(const cube& Q){
   return 2*P - Q;
 }
 
-// RC4
+// "Project" onto cubes that obey uniqueness constraints
 cube RC4(const cube& Q){
   int n = Q.n_rows;
   cube P(n,n,n,fill::zeros);
@@ -70,7 +78,7 @@ cube RC4(const cube& Q){
   return 2*P - Q;
 }
 
-// RC5
+// "Project" onto cubes that agree with the given sudoku configuration
 cube RC5(const cube&Q, Board& board){
   int n = Q.n_rows;
   cube P = Q;
@@ -98,6 +106,7 @@ Board cube2Board(const cube& Q){
   return solvedBoard;
 }
 
+// perform DR iterations to solve sudoku board
 Board DR(Board& board){
   int n = board.getSize();
   double err;
@@ -109,15 +118,16 @@ Board DR(Board& board){
      Z(n,n,n,fill::zeros);
 
    // do the DR iterations
-   for(int i =0; i < 1e4; i++){
+   for(int i =0; i < MAXITS; i++){
 
      Z = (X1+X2+X3+X4+X5)/5;
 
      // check every 50 iterations if we have a solution
      if( i%50 == 0 ){
-       err = accu(abs(Z - RC1(Z))) + accu(abs(Z - RC2(Z))) + accu(abs(Z - RC3(Z))) +
-         accu(abs(Z - RC4(Z))) + accu(abs(Z - RC5(Z, board)));
-       if(err < 1e-7){
+       err = accu(abs(Z - RC1(Z))) + accu(abs(Z - RC2(Z))) + 
+         accu(abs(Z - RC3(Z))) + accu(abs(Z - RC4(Z))) + 
+         accu(abs(Z - RC5(Z, board)));
+       if(err < TOL){
          cout << i << endl;
          return cube2Board(Z);
        }
@@ -131,7 +141,6 @@ Board DR(Board& board){
      X5 = X5/2 + RC5(2*Z-X5,board)/2;
 
    }
-
 
    return cube2Board(Z);
 

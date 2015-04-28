@@ -24,18 +24,15 @@ void Board::printPuzzle() {
     }
 
     cout << "+" << endl;
-
+    
     for(int i = 0; i < N; i++){
         cout << "| ";
         for(int j = 0; j < N; j++){
 
             if ((*this)(i,j) == 0){
-
                 cout << ".";
-
                 for(int k = 0; k < extra_space; k++)
                     cout << " ";
-
             } else {
                 if (!isProblem(i,j)){
                     cout << (*this)(i,j);
@@ -189,7 +186,9 @@ bool feasible(Board &board, int row, int col, int val){
      return true;
 }
 
-// Solve partially filled board
+// Backtracking algorithm
+// An outline of the algorithm was found on the following website (implementation is my own):
+// http://moritz.faui2k3.org/en/yasss
 bool solve(Board &board, int row, int col){
     // N: size of the board; note N must be a perfect square!
     int N = board.getSize();
@@ -221,7 +220,7 @@ bool solve(Board &board, int row, int col){
         }
     }
 
-    // We failed to find a value that works
+    // We failed to find a value that works, so backtrack
     board(row,col) = 0;
     return false;
 }
