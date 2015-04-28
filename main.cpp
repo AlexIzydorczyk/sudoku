@@ -9,9 +9,6 @@
 #include "tests.hpp"
 
 
-#include <ctime>
-#include <ratio>
-#include <chrono>
 using namespace std;
 
 
@@ -23,6 +20,7 @@ int main(int argc, char* argv[]){
     int sim = 0; // number of simulation runs (if running speed tests)
     bool verbose = false; // print each simulation result (if running speed tests)
 
+    string method = "backtrace"; //choose solving method
 
 
     // Handle command line args
@@ -89,6 +87,10 @@ int main(int argc, char* argv[]){
 
         if ((std::string(argv[i]) == "--Verbose") || (std::string(argv[i]) == "-v")) {
             verbose = true;
+        }
+
+        if ((std::string(argv[i]) == "--RP") || (std::string(argv[i]) == "-rp")) {
+            method = "RP";
         }
 
     }

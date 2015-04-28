@@ -12,7 +12,7 @@ using namespace std;
 void Board::printPuzzle() {
 
     int blockSize = (int)sqrt(N);
-    cout << blockSize << endl;
+    // cout << blockSize << endl;
 
     int extra_space = N / 10;
 

@@ -8,6 +8,7 @@ class Board{
     int **grid;
     bool **immutable;
     bool **infeasible;
+
 public:
 
     // To be implemented as matrix with single array

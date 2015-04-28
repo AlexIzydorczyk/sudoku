@@ -23,9 +23,14 @@ void unitTest(int size, int nobs, int ntimes, bool verbose){
     for (int i = 0; i < ntimes; ++i)
     {
         Board board = generatePuzzle(size,nobs);
-        auto t = measure<std::chrono::milliseconds>::execution(solve, board, 0, 0);
+
+
+        auto t = measure<std::chrono::nanoseconds>::execution(solve, board, 0, 0);
+        auto t2 = measure<std::chrono::nanoseconds>::execution(DR, board);
+
+
         if (verbose)
-            cout << "Solved puzzle in " << t << " ns." << endl;
+            cout << "Backtrace solved in " << t << " ns." << " Random projections solved in " << t2 << " ns." << endl;
         total += t;
     }
 
