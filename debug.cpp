@@ -9,20 +9,22 @@ using namespace arma;
 int main(int argc, char **argv){
   
   srand(time(NULL));
-  int n = 9;
-  Board board = generatePuzzle(n,9);
-  board.printPuzzle();
-  cout << "\n==================================\n";
+  int n = 16;
+  Board board = generatePuzzle(n,20);
+  //  board.printPuzzle();
+  //cout << "\n==================================\n";
 
   Board matt = DR(board);
-  if(!matt.checkPuzzle())
+
+  bool solve = matt.checkPuzzle();
+  if(!solve)
     cout << "DR Failed to Solve" << endl;
   else
     matt.printPuzzle();
   
-  cout << "\n==================================\n";
+  //cout << "\n==================================\n";
 
-  solve(board,0,0);
-  board.printPuzzle();
+  //solve(board,0,0);
+  //board.printPuzzle();
   
 }

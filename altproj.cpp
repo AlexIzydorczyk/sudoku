@@ -1,4 +1,6 @@
 #include "altproj.hpp"
+#include <iostream>
+using namespace std;
 using namespace arma;
 
 // RC1
@@ -80,8 +82,25 @@ cube RC5(const cube&Q, Board& board){
 
 }
 
+// converts a cube to a board by filling board(i,j) with the index
+// of the largest index of Q(i,j,:)
+Board cube2Board(const cube& Q){
+  int n = Q.n_rows;
+  Board solvedBoard(n);
+  uword ix;
+  vec A;
+  for(int i = 0; i < n; i++)
+    for(int j = 0; j < n; j++){
+      A = Q.tube(i,j);
+      A.max(ix);
+      solvedBoard(i,j) = (int)ix + 1;
+    }
+  return solvedBoard;
+}
+
 Board DR(Board& board){
   int n = board.getSize();
+  double err;
    cube X1(n,n,n,fill::zeros),
      X2(n,n,n,fill::zeros),
      X3(n,n,n,fill::zeros),
@@ -89,33 +108,31 @@ Board DR(Board& board){
      X5(n,n,n,fill::zeros),
      Z(n,n,n,fill::zeros);
 
-   wall_clock timer;
-   // timer.tic();
-
    // do the DR iterations
    for(int i =0; i < 1e4; i++){
+
      Z = (X1+X2+X3+X4+X5)/5;
+
+     // check every 50 iterations if we have a solution
+     if( i%50 == 0 ){
+       err = accu(abs(Z - RC1(Z))) + accu(abs(Z - RC2(Z))) + accu(abs(Z - RC3(Z))) +
+         accu(abs(Z - RC4(Z))) + accu(abs(Z - RC5(Z, board)));
+       if(err < 1e-7){
+         cout << i << endl;
+         return cube2Board(Z);
+       }
+     }
+
+     // compute reflection operators
      X1 = X1/2 + RC1(2*Z-X1)/2;
      X2 = X2/2 + RC2(2*Z-X2)/2;
      X3 = X3/2 + RC3(2*Z-X3)/2;
      X4 = X4/2 + RC4(2*Z-X4)/2;
      X5 = X5/2 + RC5(2*Z-X5,board)/2;
+
    }
-   // cout << timer.toc();
 
-   // take an average of final projection and round it
-   Z = round((X1+X2+X3+X4+X5)/5);
 
-   // convert cube into board
-   Board solvedBoard(n);
-   uword ix;
-   vec A;
-   for(int i = 0; i < n; i++)
-     for(int j = 0; j < n; j++){
-       A = Z.tube(i,j);
-       A.max(ix);
-       solvedBoard(i,j) = (int)ix + 1;
-     }
-   return solvedBoard;
+   return cube2Board(Z);
 
 }
