@@ -1,20 +1,22 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Implement unit testing functions
+*/
+
 #include <iostream>
 #include <regex>
-
 #include <sstream>
-
-
 #include "solver.hpp"
 #include "altproj.hpp"
 #include "game.hpp"
 #include "tests.hpp"
-
 #include <ctime>
 #include <ratio>
 #include <chrono>
 
 using namespace std;
-
 
 // Unit test for comparing functions
 // Specify size of puzzle, numbers of filled in values (number of observations
@@ -30,7 +32,8 @@ void unitTest(int size, int nobs, int ntimes, bool verbose){
         Board board = generatePuzzle(size,nobs);
 
 
-        auto t = measure<std::chrono::nanoseconds>::execution(solve, board, 0, 0);
+        auto t = measure<std::chrono::nanoseconds>::execution(solve, 
+                                                              board, 0, 0);
         auto t2 = measure<std::chrono::nanoseconds>::execution(DR, board);
 
         //Print output if verbose

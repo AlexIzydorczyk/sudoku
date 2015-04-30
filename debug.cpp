@@ -11,6 +11,7 @@ int main(int argc, char **argv){
   srand(time(NULL));
   int n = 16;
   Board board = generatePuzzle(n,20);
+  cout << "now!\n";
   //  board.printPuzzle();
   //cout << "\n==================================\n";
 

@@ -1,8 +1,16 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Implement Board class to hold state of sudoku game
+*/
 #pragma once
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
 
+// board class to hold state of sudoku game (parts of board implementation
+// borrowed from lecture code)
 class Board{
     int N;
     int **grid;
@@ -115,11 +123,9 @@ public:
 
 };
 
-
 bool feasible(Board &b, int row, int col, int val);
 bool solve(Board &b, int row, int col);
 int* genPerm(int N);
 Board generatePuzzle(int n, int nobs);
 
-// void assignValue(Board &b);
 

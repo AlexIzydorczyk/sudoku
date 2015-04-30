@@ -1,3 +1,10 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Implementation of backtracking algorithm and other game-play mechanics
+*/
+
 #include "solver.hpp"
 #include <iostream>
 #include <cassert>
@@ -7,13 +14,11 @@
 
 using namespace std;
 
-
 // Function to print the board
 void Board::printPuzzle() {
 
     int blockSize = (int)sqrt(N);
     int extra_space = N / 10;
-
 
     for(int i = 0; i < N; i++){
         cout << "+---";
@@ -192,8 +197,8 @@ bool feasible(Board &board, int row, int col, int val){
 }
 
 // Backtracking algorithm
-// An outline of the algorithm was found on the following website (implementation is my own):
-// http://moritz.faui2k3.org/en/yasss
+// An outline of the algorithm was found on the following website 
+// (implementation is my own): http://moritz.faui2k3.org/en/yasss
 bool solve(Board &board, int row, int col){
     // N: size of the board; note N must be a perfect square!
     int N = board.getSize();

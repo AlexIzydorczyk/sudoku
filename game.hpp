@@ -1,10 +1,15 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Game-play function declarations
+*/
+#pragma once
 #include <iostream>
 #include <regex>
-
+#include <sstream>
 #include "solver.hpp"
 #include "altproj.hpp"
-
-#include <sstream>
 
 //main function to run the user interactive game
 void playGame(int size, int nobs);

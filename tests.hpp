@@ -1,20 +1,21 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+Function declarations for unit-testing
+*/
+#pragma once
 #include <iostream>
 #include <regex>
-
 #include <sstream>
-
-
 #include "solver.hpp"
 #include "altproj.hpp"
 #include "game.hpp"
-
 #include <ctime>
 #include <ratio>
 #include <chrono>
 
-
 using namespace std;
-
 
 // Unit testing code
 // Based on http://stackoverflow.com/questions/29719999/
@@ -33,7 +34,6 @@ struct measure
         return duration.count();
     }
 };
-
 
 //Unit test
 void unitTest(int size, int nobs, int ntimes, bool verbose);

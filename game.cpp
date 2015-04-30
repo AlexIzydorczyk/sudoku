@@ -1,9 +1,13 @@
+/*
+Matt Olson
+Alex Izydorczyk
+
+File to implement game play
+*/
+
 #include <iostream>
 #include <regex>
-
 #include <sstream>
-
-
 #include "game.hpp"
 #include "solver.hpp"
 #include "altproj.hpp"
@@ -30,9 +34,7 @@ void playGame(int size, int nobs){
 
     string user_entry;
     bool solverSucces = false;
-
     Board board = generatePuzzle(size,nobs);
-
     regex rgx("[0-9]{1,}"); // For parsing user input
     smatch match;
 
@@ -54,7 +56,8 @@ void playGame(int size, int nobs){
         }
 
         int count = 0;
-        for(sregex_iterator i = sregex_iterator(user_entry.begin(), user_entry.end(), rgx);
+        for(sregex_iterator i = sregex_iterator(user_entry.begin(), 
+                                                user_entry.end(), rgx);
                                 i != sregex_iterator();
                                 ++i )
         {
@@ -64,14 +67,18 @@ void playGame(int size, int nobs){
         }
 
         if (!board.inBounds(input_int[2])){
-            cout << "Values entered must be between 1 and " << board.getSize() << endl;
+            cout << "Values entered must be between 1 and " 
+                 << board.getSize() << endl;
             continue;
         }
 
-        if (board.feasibleUser((input_int[1]-1),(input_int[0]-1),input_int[2])==true){
+        if (board.feasibleUser((input_int[1]-1),(input_int[0]-1),
+                               input_int[2])==true){
 
-            if (board.checkImmutable((input_int[1]-1),(input_int[0]-1)) == false){
-                board.assignValue((input_int[1]-1),(input_int[0]-1),input_int[2]);
+            if (board.checkImmutable((input_int[1]-1),
+                                     (input_int[0]-1)) == false){
+                board.assignValue((input_int[1]-1),(input_int[0]-1),
+                                  input_int[2]);
             } else {
                 cout << "You can't change that value!" << endl;
             }
@@ -81,7 +88,6 @@ void playGame(int size, int nobs){
         }
 
     } while (!board.checkPuzzle());
-
 
     string user_response;
 
