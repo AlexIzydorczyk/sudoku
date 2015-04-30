@@ -124,11 +124,11 @@ Board DR(Board& board){
 
      // check every 50 iterations if we have a solution
      if( i%50 == 0 ){
-       err = accu(abs(Z - RC1(Z))) + accu(abs(Z - RC2(Z))) + 
-         accu(abs(Z - RC3(Z))) + accu(abs(Z - RC4(Z))) + 
+       err = accu(abs(Z - RC1(Z))) + accu(abs(Z - RC2(Z))) +
+         accu(abs(Z - RC3(Z))) + accu(abs(Z - RC4(Z))) +
          accu(abs(Z - RC5(Z, board)));
        if(err < TOL){
-         cout << i << endl;
+         //cout << i << endl;
          return cube2Board(Z);
        }
      }

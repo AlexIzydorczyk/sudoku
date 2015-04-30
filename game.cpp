@@ -11,6 +11,8 @@ using namespace std;
 
 void playGame(int size, int nobs);
 
+
+//play game again
 void playAgainPrompt(int size, int nobs){
     string user_response;
 
@@ -38,21 +40,27 @@ void playGame(int size, int nobs){
 
     int input_int[3]; // Array for user input
 
+    // Repeat until puzzle is solved
     do {
-        board.printPuzzle();
-        getline(cin, user_entry);
 
-        if (user_entry == "Solve"){
+
+        board.printPuzzle(); // print puzzle
+        getline(cin, user_entry); // get user input
+
+
+        // Check for user commands
+        if (user_entry == "Solve" || user_entry == "solve"){
             solverSucces = solve(board,0,0);
             board.printPuzzle();
             break;
         }
 
-        if (user_entry == "Clear"){
+        if (user_entry == "Clear" || user_entry == "clear"){
             board.clearPuzzle();
             continue;
         }
 
+        // Assuming no special command, attempt to parse user input
         int count = 0;
         for(sregex_iterator i = sregex_iterator(user_entry.begin(), user_entry.end(), rgx);
                                 i != sregex_iterator();
@@ -63,15 +71,24 @@ void playGame(int size, int nobs){
             ++count;
         }
 
-        if (!board.inBounds(input_int[2])){
-            cout << "Values entered must be between 1 and " << board.getSize() << endl;
-            continue;
-        }
+        // If parse values are out of range... throw error and continue
+        bool invalid = false;
+        for (int i=0; i<3; i++) {
+		    if (!board.inBounds(input_int[i])){
+		    	invalid = true;
+		    }
+		}
 
-        if (board.feasibleUser((input_int[1]-1),(input_int[0]-1),input_int[2])==true){
+		if (invalid){
+			cout << "Values entered must be between 1 and " << board.getSize() << endl;
+			continue;
+		}
 
-            if (board.checkImmutable((input_int[1]-1),(input_int[0]-1)) == false){
-                board.assignValue((input_int[1]-1),(input_int[0]-1),input_int[2]);
+        // Assign board value if feasible move
+        if (board.feasibleUser((input_int[0]-1),(input_int[1]-1),input_int[2])==true){
+
+            if (board.checkImmutable((input_int[0]-1),(input_int[1]-1)) == false){
+                board.assignValue((input_int[0]-1),(input_int[1]-1),input_int[2]);
             } else {
                 cout << "You can't change that value!" << endl;
             }
@@ -79,6 +96,11 @@ void playGame(int size, int nobs){
         } else {
             cout << "Not feasible!" << endl;
         }
+
+        // reset inputs to 0, will cause invalid message if unchanged on next round
+		for (int i=0; i<3; i++) {
+		    input_int[i] = 0;
+		}
 
     } while (!board.checkPuzzle());
 

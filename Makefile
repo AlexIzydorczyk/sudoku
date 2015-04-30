@@ -12,5 +12,5 @@ debug: $(OBJ)
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 clean:
-	rm $(OBJ) debug main
+	rm $(OBJ) sudoku
 
