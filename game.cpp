@@ -33,10 +33,11 @@ void playGame(int size, int nobs){
 
     Board board = generatePuzzle(size,nobs);
 
-    regex rgx("[0-9]{1,}");
+    regex rgx("[0-9]{1,}"); // For parsing user input
     smatch match;
 
-    int input_int[3];
+    int input_int[3]; // Array for user input
+
     do {
         board.printPuzzle();
         getline(cin, user_entry);
@@ -58,7 +59,6 @@ void playGame(int size, int nobs){
                                 ++i )
         {
             smatch m = *i;
-
             input_int[count] = stoi(m.str());
             ++count;
         }
@@ -69,7 +69,6 @@ void playGame(int size, int nobs){
         }
 
         if (board.feasibleUser((input_int[1]-1),(input_int[0]-1),input_int[2])==true){
-        // if (feasible(board, (input_int[1]-1),(input_int[0]-1),input_int[2]) == true){
 
             if (board.checkImmutable((input_int[1]-1),(input_int[0]-1)) == false){
                 board.assignValue((input_int[1]-1),(input_int[0]-1),input_int[2]);

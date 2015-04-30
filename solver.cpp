@@ -8,12 +8,10 @@
 using namespace std;
 
 
-
+// Function to print the board
 void Board::printPuzzle() {
 
     int blockSize = (int)sqrt(N);
-    // cout << blockSize << endl;
-
     int extra_space = N / 10;
 
 
@@ -24,7 +22,7 @@ void Board::printPuzzle() {
     }
 
     cout << "+" << endl;
-    
+
     for(int i = 0; i < N; i++){
         cout << "| ";
         for(int j = 0; j < N; j++){
@@ -71,6 +69,8 @@ void Board::printPuzzle() {
 
 }
 
+
+// Check if the puzzle is complete
 bool Board::checkPuzzle(){
     int val = 0;
 
@@ -87,6 +87,8 @@ bool Board::checkPuzzle(){
     return true;
 }
 
+//Empty all cells that are not immutable
+// immutable = prefilled by the randomly generated puzzle
 void Board::clearPuzzle(){
     for(int i = 0; i < N; i++)
         for(int j = 0; j < N; j++)
@@ -94,6 +96,9 @@ void Board::clearPuzzle(){
                 (*this)(i,j) = 0;
 }
 
+
+//Check if value is within size range of puzzle
+//i.e. 1-9 on a 9x9 puzzle
 bool Board::inBounds(int val){
     if ((val > 0) && (val <= N)){
         return true;

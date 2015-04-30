@@ -3,7 +3,7 @@ LDFLAGS=-lm -larmadillo
 OBJ=solver.o altproj.o game.o tests.o
 
 all: $(OBJ)
-	$(CXX) main.cpp -o main $(OBJ) $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) main.cpp -o sudoku $(OBJ) $(CXXFLAGS) $(LDFLAGS)
 
 debug: $(OBJ)
 	$(CXX) debug.cpp -o debug $(OBJ) $(CXXFLAGS) $(LDFLAGS)

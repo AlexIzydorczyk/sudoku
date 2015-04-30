@@ -33,7 +33,9 @@ public:
             for(int j = 0; j < N; j++)
                 immutable[i][j] = true;
 
-       //matrix to track which values are causing infeasibility
+        // matrix to track which values are causing infeasibilitsy
+        // these are problem cells that will be
+        // highlighted in red during gameplay
         infeasible = new bool*[N];
         for(int i = 0; i < N; i++){
             infeasible[i] = new bool[N];
@@ -45,13 +47,22 @@ public:
 
     }
 
-  //    Board(int n, int nobs);
-
+    //destructor for board
     ~Board(){
         for(int i = 0; i < N; i++){
             delete [] grid[i];
         }
         delete [] grid;
+
+        for(int i = 0; i < N; i++){
+            delete [] immutable[i];
+        }
+        delete [] immutable;
+
+        for(int i = 0; i < N; i++){
+            delete [] infeasible[i];
+        }
+        delete [] infeasible;
     }
 
     void printPuzzle(); // print the puzzle to the screen
@@ -60,27 +71,35 @@ public:
     bool inBounds(int val); //Check if value can exist in puzzle
     bool feasibleUser(int row, int col, int val);
 
+    //Operator overload to assign value to cell
     int& operator() (int x, int y){
         assert(x < N && y < N);
         return grid[x][y];
     }
 
+    //Operator overload to assign value to cell
     void assignValue(int x, int y, int val){
         (*this)(x,y) = val;
     }
 
+    // toggle cell mutability
     void assignImmutable(int x, int y, bool val){
         immutable[x][y] = val;
     }
 
+    //Checks if cell is ummutable (not changeable by solve/user)
     bool checkImmutable(int x, int y){
         return immutable[x][y];
     }
 
+    //Keep track of "problem cells"
+    //i.e. cells that cause infeasibility
     bool isProblem(int x, int y){
         return infeasible[x][y];
     }
 
+    //Get size of game
+    //ie. 9 for 9x9 game
     int getSize(){
         return N;
     }
@@ -96,10 +115,9 @@ public:
 
 };
 
-// void printPuzzle(Board &b);
+
 bool feasible(Board &b, int row, int col, int val);
 bool solve(Board &b, int row, int col);
-// bool checkPuzzle(Board &b);
 int* genPerm(int N);
 Board generatePuzzle(int n, int nobs);
 
